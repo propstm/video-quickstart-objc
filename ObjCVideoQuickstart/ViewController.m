@@ -15,6 +15,7 @@
 // Configure access token manually for testing in `ViewDidLoad`, if desired! Create one manually in the console.
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, strong) NSString *tokenUrl;
+@property (nonatomic, assign) BOOL isSpeakerMode;
 
 #pragma mark Video SDK components
 
@@ -24,6 +25,7 @@
 @property (nonatomic, strong) TVIRemoteParticipant *remoteParticipant;
 @property (nonatomic, weak) TVIVideoView *remoteView;
 @property (nonatomic, strong) TVIRoom *room;
+@property (nonatomic, strong) TVIDefaultAudioDevice *audioDevice;
 
 #pragma mark UI Element Outlets and handles
 
@@ -37,6 +39,8 @@
 @property (nonatomic, weak) IBOutlet UIButton *micButton;
 @property (nonatomic, weak) IBOutlet UILabel *roomLabel;
 @property (nonatomic, weak) IBOutlet UILabel *roomLine;
+@property (weak, nonatomic) IBOutlet UIButton *participantBtn;
+@property (weak, nonatomic) IBOutlet UIButton *speakerSwitchBtn;
 
 @end
 
@@ -46,7 +50,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.isSpeakerMode = YES;
     [self logMessage:[NSString stringWithFormat:@"TwilioVideo v%@", [TwilioVideo version]]];
 
     // Configure access token for testing. Create one manually in the console
@@ -54,7 +58,10 @@
     self.accessToken = @"TWILIO_ACCESS_TOKEN";
     
     // Using a token server to provide access tokens? Make sure the tokenURL is pointing to the correct location.
-    self.tokenUrl = @"http://localhost:8000/token.php";
+    //self.tokenUrl = @"http://localhost:8000/token.php";
+    
+    self.tokenUrl = [NSString stringWithFormat:@"https://dev2.app.vocoli.com/scripts/twilio/_vocoli_auth/accesstoken.php?identity=%@&room=%@", @"user_test_1", @"abc"];
+    NSLog(@"TOKEN URL: %@", self.tokenUrl);
     
     // Preview our local camera track in the local video preview view.
     [self startPreview];
@@ -65,9 +72,25 @@
     
     self.roomTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.roomTextField.delegate = self;
+    
+    /**
+     * We will create an audio device and manage it's lifecycle in response to the AVPlayer events. Please note that the
+     * SDK does not support the use of multiple audio devices at the same time. If you've already connected to a Room,
+     * then all future connection attempts must use the same TVIDefaultAudioDevice as the first Room. Once all the existing
+     * Rooms are disconnected you are free to choose a new audio device for your next connection attempt.
+     */
+    self.audioDevice = [TVIDefaultAudioDevice audioDevice];
+    
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.speakerSwitchBtn addTarget:self action:@selector(switchSpeakerClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.participantBtn addTarget:self action:@selector(logParticipantInfo) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - Public
@@ -81,11 +104,25 @@
         [TokenUtils retrieveAccessTokenFromURL:self.tokenUrl completion:^(NSString *token, NSError *err) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
-                    self.accessToken = token;
+                    NSLog(@"TOKEN RESPONSE: %@", token);
+                    NSError *jsonError;
+                    NSData *objectData = [token dataUsingEncoding:NSUTF8StringEncoding];
+                    //NSObject *objectData = NSObject
+                    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                         options:NSJSONReadingMutableContainers
+                                                                           error:&jsonError];
+                    
+                    NSLog(@"TOKEN JSON: %@", json);
+                    
+                    NSString *tokenString = [json valueForKey:@"token"];
+                    
+                    NSLog(@"IDENTITY STRING: %@", tokenString);
+                    
+                    self.accessToken = tokenString;
                     [self doConnect];
                 } else {
                     [self logMessage:[NSString stringWithFormat:@"Error retrieving the access token"]];
-                    [self showRoomUI:NO];
+                    //[self showRoomUI:NO];
                 }
             });
         }];
@@ -188,7 +225,7 @@
 
         // The name of the Room where the Client will attempt to connect to. Please note that if you pass an empty
         // Room `name`, the Client will create one for you. You can get the name or sid from any connected Room.
-        builder.roomName = self.roomTextField.text;
+        builder.roomName = @"abc";
     }];
     
     // Connect to the Room using the options we provided.
@@ -293,6 +330,88 @@
         self.remoteParticipant = room.remoteParticipants[0];
         self.remoteParticipant.delegate = self;
     }
+    
+//    //Audio test
+//    NSLog(@"SETTING UP AUDIO DEVICE AFTER CONNECTING TO ROOM --");
+//    NSLog(@"Audio Device: %@", self.audioDevice);
+//
+//    self.audioDevice.block = ^() {
+//        kDefaultAVAudioSessionConfigurationBlock();
+//
+//        AVAudioSession *session = [AVAudioSession sharedInstance];
+//
+//        NSError *error = nil;
+//       // [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+//        NSLog(@"ERROR: %@", error);
+//        // set the mode to voice chat
+//        [session setMode:AVAudioSessionModeVoiceChat error:&error];
+//        //[session setOption:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
+//        // SPEAKER
+//       /// [session setCategory:AVAudioSessionModeDefault
+//       //          withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
+//       //                error:&error];
+////        NSLog(@"ERROR2: %@", error);
+////        if (![session setCategory:AVAudioSessionModeVoiceChat
+////                      withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
+////                            error:&error]) {
+////            NSLog(@"AUDIO DEVICE LOG:");
+////            NSLog(@"AVAudioSession setCategory:withOptions %@",error);
+////            NSLog(@"ERROR DESCRIPTION: %@", error.description);
+////        }else{
+////            NSLog(@"AUDIO SESSION CATEGORY SETUP SUCCESSFUL!");
+////        }
+//
+//        /* Only valid with kAudioSessionCategory_PlayAndRecord. Reduces the number of allowable audio
+//            routes to be only those that are appropriate for video chat applications. May engage appropriate
+//            system-supplied signal processing.  Has the side effect of setting
+//            AVAudioSessionCategoryOptionAllowBluetooth and AVAudioSessionCategoryOptionDefaultToSpeaker. */
+//        //    AVF_EXPORT NSString *const AVAudioSessionModeVideoChat NS_AVAILABLE_IOS(7_0);
+//    };
+//    self.audioDevice.block();
+//    NSLog(@"Called Audio Device Block Code");
+}
+
+- (void)switchSpeakerClicked{
+    //Audio test
+    NSLog(@"SETTING UP AUDIO DEVICE AFTER CONNECTING TO ROOM --");
+    NSLog(@"Audio Device: %@", self.audioDevice);
+    __weak ViewController *weakSelf = self;
+    self.audioDevice.block = ^() {
+        
+        kDefaultAVAudioSessionConfigurationBlock();
+        
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        
+        NSError *error = nil;
+        // [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+        NSLog(@"ERROR: %@", error);
+        // set the mode to voice chat
+        if(weakSelf.isSpeakerMode){
+            [session setMode:AVAudioSessionModeVoiceChat error:&error];
+            [weakSelf.speakerSwitchBtn setTitle:@"Speaker" forState:UIControlStateNormal];
+            weakSelf.isSpeakerMode = NO;
+        }else{
+            // SPEAKER
+            [session setCategory:AVAudioSessionModeDefault
+                     withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
+                           error:&error];
+            [weakSelf.speakerSwitchBtn setTitle:@"In-Ear" forState:UIControlStateNormal];
+            weakSelf.isSpeakerMode = YES;
+
+        }
+        /* Only valid with kAudioSessionCategory_PlayAndRecord. Reduces the number of allowable audio
+         routes to be only those that are appropriate for video chat applications. May engage appropriate
+         system-supplied signal processing.  Has the side effect of setting
+         AVAudioSessionCategoryOptionAllowBluetooth and AVAudioSessionCategoryOptionDefaultToSpeaker. */
+        //    AVF_EXPORT NSString *const AVAudioSessionModeVideoChat NS_AVAILABLE_IOS(7_0);
+    };
+    self.audioDevice.block();
+}
+
+- (void)logParticipantInfo{
+    
+    NSLog(@"PARTICIPANT ARRAY: %@",
+          self.room.remoteParticipants);
 }
 
 - (void)room:(TVIRoom *)room didDisconnectWithError:(nullable NSError *)error {

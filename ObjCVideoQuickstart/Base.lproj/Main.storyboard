@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jSN-F6-Q4K">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jSN-F6-Q4K">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -104,10 +104,33 @@
                                     <constraint firstAttribute="height" constant="160" id="s89-nA-17F"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyS-am-zwR">
+                                <rect key="frame" x="10" y="559" width="100" height="44"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Daj-cx-hIe"/>
+                                    <constraint firstAttribute="height" constant="44" id="bih-jl-zrh"/>
+                                </constraints>
+                                <state key="normal" title="Ear Speaker">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGh-iA-9KY">
+                                <rect key="frame" x="10" y="505" width="125" height="44"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="125" id="lzF-Sq-R5F"/>
+                                    <constraint firstAttribute="height" constant="44" id="oMJ-f1-CaO"/>
+                                </constraints>
+                                <state key="normal" title="Participant Info">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="jgR-Qy-dC6" firstAttribute="top" secondItem="Zud-AS-DEE" secondAttribute="bottom" constant="21" id="0Am-2H-kE1"/>
+                            <constraint firstItem="rwp-9E-VzS" firstAttribute="top" secondItem="uyS-am-zwR" secondAttribute="bottom" constant="10" id="4Jc-nZ-LUg"/>
                             <constraint firstItem="krA-sT-Z3g" firstAttribute="leading" secondItem="3Bh-pO-6uY" secondAttribute="leadingMargin" constant="-5" id="4jO-qh-yH2"/>
                             <constraint firstItem="7dZ-Ur-uSj" firstAttribute="top" secondItem="Zud-AS-DEE" secondAttribute="bottom" id="AaN-mH-AYD"/>
                             <constraint firstItem="jgR-Qy-dC6" firstAttribute="top" secondItem="EkL-i8-cDP" secondAttribute="bottom" constant="16" id="FAy-WH-Wvc"/>
@@ -121,10 +144,13 @@
                             <constraint firstAttribute="leadingMargin" secondItem="jgR-Qy-dC6" secondAttribute="leading" id="bOl-NA-2zy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jgR-Qy-dC6" secondAttribute="trailing" id="dqW-B2-5zF"/>
                             <constraint firstAttribute="trailing" secondItem="ebq-ja-6iU" secondAttribute="trailing" id="eiL-ob-cD1"/>
+                            <constraint firstItem="aGh-iA-9KY" firstAttribute="leading" secondItem="3Bh-pO-6uY" secondAttribute="leading" constant="10" id="gsw-Ow-7Ot"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EkL-i8-cDP" secondAttribute="trailing" id="lhs-bL-0xl"/>
                             <constraint firstItem="tZu-uw-hgi" firstAttribute="top" secondItem="krA-sT-Z3g" secondAttribute="bottom" constant="10" id="mOt-mS-dXh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7dZ-Ur-uSj" secondAttribute="trailing" id="nNa-6o-3I1"/>
+                            <constraint firstItem="uyS-am-zwR" firstAttribute="top" secondItem="aGh-iA-9KY" secondAttribute="bottom" constant="10" id="ntW-ew-x8k"/>
                             <constraint firstItem="hJ3-NM-pz1" firstAttribute="trailing" secondItem="3Bh-pO-6uY" secondAttribute="trailingMargin" constant="5" id="sFH-2X-Gms"/>
+                            <constraint firstItem="uyS-am-zwR" firstAttribute="leading" secondItem="3Bh-pO-6uY" secondAttribute="leading" constant="10" id="sLJ-1A-9Sn"/>
                             <constraint firstItem="ebq-ja-6iU" firstAttribute="top" secondItem="8oD-ke-cGW" secondAttribute="bottom" id="sqw-S7-DJO"/>
                             <constraint firstItem="EkL-i8-cDP" firstAttribute="baseline" secondItem="Zud-AS-DEE" secondAttribute="baseline" id="wcj-oJ-1M9"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Zud-AS-DEE" secondAttribute="leading" id="zEL-TX-UbL"/>
@@ -135,10 +161,12 @@
                         <outlet property="disconnectButton" destination="krA-sT-Z3g" id="uQu-1U-Ree"/>
                         <outlet property="messageLabel" destination="ebq-ja-6iU" id="yjH-dj-KgF"/>
                         <outlet property="micButton" destination="rwp-9E-VzS" id="SW4-po-OHw"/>
+                        <outlet property="participantBtn" destination="aGh-iA-9KY" id="kg3-v7-vNu"/>
                         <outlet property="previewView" destination="hJ3-NM-pz1" id="1kY-rd-tEJ"/>
                         <outlet property="roomLabel" destination="Zud-AS-DEE" id="20X-Ci-kMk"/>
                         <outlet property="roomLine" destination="7dZ-Ur-uSj" id="FnZ-FM-uD0"/>
                         <outlet property="roomTextField" destination="EkL-i8-cDP" id="lGF-ox-K6d"/>
+                        <outlet property="speakerSwitchBtn" destination="uyS-am-zwR" id="7HQ-6p-Hqf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JfB-JL-3y4" sceneMemberID="firstResponder"/>

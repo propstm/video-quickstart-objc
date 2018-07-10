@@ -22,6 +22,7 @@
 		283214CF1CD3BE0D00F1AD80 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283214CE1CD3BE0D00F1AD80 /* AudioToolbox.framework */; };
 		4BF377BC1D99C8F200AC0BA3 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF377BB1D99C8F200AC0BA3 /* Utils.m */; };
 		4BF377C11D99F0D700AC0BA3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BF377BF1D99F0D700AC0BA3 /* Main.storyboard */; };
+		94D330D3F4191E136B5054C2 /* libPods-TwilioVideo-ObjCVideoQuickstart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DEC69677E5BA01FF39E1DB /* libPods-TwilioVideo-ObjCVideoQuickstart.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +39,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		25505B29A2B24B7B1CD30BD7 /* Pods-TwilioVideo-ObjCVideoQuickstart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwilioVideo-ObjCVideoQuickstart.release.xcconfig"; path = "Pods/Target Support Files/Pods-TwilioVideo-ObjCVideoQuickstart/Pods-TwilioVideo-ObjCVideoQuickstart.release.xcconfig"; sourceTree = "<group>"; };
 		2832148F1CD1307900F1AD80 /* ObjCVideoQuickstart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjCVideoQuickstart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		283214931CD1307900F1AD80 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		283214951CD1307900F1AD80 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -58,6 +60,8 @@
 		4BF377BA1D99C8F200AC0BA3 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		4BF377BB1D99C8F200AC0BA3 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4BF377C01D99F0D700AC0BA3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		64B95D37DEE54BDBE3EA6528 /* Pods-TwilioVideo-ObjCVideoQuickstart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwilioVideo-ObjCVideoQuickstart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TwilioVideo-ObjCVideoQuickstart/Pods-TwilioVideo-ObjCVideoQuickstart.debug.xcconfig"; sourceTree = "<group>"; };
+		77DEC69677E5BA01FF39E1DB /* libPods-TwilioVideo-ObjCVideoQuickstart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TwilioVideo-ObjCVideoQuickstart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,12 +77,21 @@
 				283214C51CD3BDDF00F1AD80 /* CoreMedia.framework in Frameworks */,
 				283214C31CD3BDCE00F1AD80 /* SystemConfiguration.framework in Frameworks */,
 				283214C11CD3BDC400F1AD80 /* libc++.tbd in Frameworks */,
+				94D330D3F4191E136B5054C2 /* libPods-TwilioVideo-ObjCVideoQuickstart.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02107B7BC7972BFC1ECBC131 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				77DEC69677E5BA01FF39E1DB /* libPods-TwilioVideo-ObjCVideoQuickstart.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		283214861CD1307900F1AD80 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +105,8 @@
 				283214C01CD3BDC400F1AD80 /* libc++.tbd */,
 				283214911CD1307900F1AD80 /* ObjCVideoQuickstart */,
 				283214901CD1307900F1AD80 /* Products */,
+				59FF2680E7E97AC9FCA3F222 /* Pods */,
+				02107B7BC7972BFC1ECBC131 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +144,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		59FF2680E7E97AC9FCA3F222 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				64B95D37DEE54BDBE3EA6528 /* Pods-TwilioVideo-ObjCVideoQuickstart.debug.xcconfig */,
+				25505B29A2B24B7B1CD30BD7 /* Pods-TwilioVideo-ObjCVideoQuickstart.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -136,10 +160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 283214A61CD1307900F1AD80 /* Build configuration list for PBXNativeTarget "ObjCVideoQuickstart" */;
 			buildPhases = (
+				2247709288519D56FE371B35 /* [CP] Check Pods Manifest.lock */,
 				2832148B1CD1307900F1AD80 /* Sources */,
 				2832148C1CD1307900F1AD80 /* Frameworks */,
 				2832148D1CD1307900F1AD80 /* Resources */,
 				4BF377B91D95F02800AC0BA3 /* Embed Frameworks */,
+				1883F7331FD0D019ECF04FB6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -161,7 +187,7 @@
 				TargetAttributes = {
 					2832148E1CD1307900F1AD80 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = SX5J6BN2KX;
+						DevelopmentTeam = 6ZMC6F7RSN;
 					};
 				};
 			};
@@ -195,6 +221,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1883F7331FD0D019ECF04FB6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TwilioVideo-ObjCVideoQuickstart/Pods-TwilioVideo-ObjCVideoQuickstart-frameworks.sh",
+				"${PODS_ROOT}/TwilioVideo/Build/iOS/TwilioVideo.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwilioVideo.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TwilioVideo-ObjCVideoQuickstart/Pods-TwilioVideo-ObjCVideoQuickstart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2247709288519D56FE371B35 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TwilioVideo-ObjCVideoQuickstart-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2832148B1CD1307900F1AD80 /* Sources */ = {
@@ -316,9 +381,10 @@
 		};
 		283214A71CD1307900F1AD80 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 64B95D37DEE54BDBE3EA6528 /* Pods-TwilioVideo-ObjCVideoQuickstart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = SX5J6BN2KX;
+				DEVELOPMENT_TEAM = 6ZMC6F7RSN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -326,16 +392,17 @@
 				INFOPLIST_FILE = ObjCVideoQuickstart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.ObjCVideoQuickstart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.twilio.ObjCVideoQuickstart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		283214A81CD1307900F1AD80 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25505B29A2B24B7B1CD30BD7 /* Pods-TwilioVideo-ObjCVideoQuickstart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = SX5J6BN2KX;
+				DEVELOPMENT_TEAM = 6ZMC6F7RSN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -343,7 +410,7 @@
 				INFOPLIST_FILE = ObjCVideoQuickstart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.twilio.ObjCVideoQuickstart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.twilio.ObjCVideoQuickstart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

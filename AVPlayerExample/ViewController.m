@@ -46,6 +46,8 @@ NSString *const kStatusKey   = @"status";
 @property (nonatomic, strong) TVILocalAudioTrack *localAudioTrack;
 @property (nonatomic, strong) TVIRemoteParticipant *remoteParticipant;
 @property (nonatomic, weak) TVIVideoView *remoteView;
+@property (weak, nonatomic) IBOutlet UIButton *speakerSwitchBtn;
+@property (weak, nonatomic) IBOutlet UIButton *participantInfoBtn;
 
 #pragma mark AVPlayer
 
