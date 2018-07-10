@@ -52,7 +52,7 @@
     [super viewDidLoad];
     self.isSpeakerMode = YES;
     [self logMessage:[NSString stringWithFormat:@"TwilioVideo v%@", [TwilioVideo version]]];
-
+    
     // Configure access token for testing. Create one manually in the console
     // at https://www.twilio.com/console/video/runtime/testing-tools
     self.accessToken = @"TWILIO_ACCESS_TOKEN";
@@ -65,7 +65,7 @@
     
     // Preview our local camera track in the local video preview view.
     [self startPreview];
-
+    
     // Disconnect and mic button will be displayed when client is connected to a room.
     self.disconnectButton.hidden = YES;
     self.micButton.hidden = YES;
@@ -81,7 +81,7 @@
      */
     self.audioDevice = [TVIDefaultAudioDevice audioDevice];
     
-
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
 }
@@ -136,7 +136,7 @@
 }
 
 - (IBAction)micButtonPressed:(id)sender {
-    // We will toggle the mic to mute/unmute and change the title according to the user action. 
+    // We will toggle the mic to mute/unmute and change the title according to the user action.
     
     if (self.localAudioTrack) {
         self.localAudioTrack.enabled = !self.localAudioTrack.isEnabled;
@@ -195,12 +195,12 @@
         self.localAudioTrack = [TVILocalAudioTrack trackWithOptions:nil
                                                             enabled:YES
                                                                name:@"Microphone"];
-
+        
         if (!self.localAudioTrack) {
             [self logMessage:@"Failed to add audio track"];
         }
     }
-
+    
     // Create a video track which captures from the camera.
     if (!self.localVideoTrack) {
         [self startPreview];
@@ -218,15 +218,15 @@
     
     TVIConnectOptions *connectOptions = [TVIConnectOptions optionsWithToken:self.accessToken
                                                                       block:^(TVIConnectOptionsBuilder * _Nonnull builder) {
-
-        // Use the local media that we prepared earlier.
-        builder.audioTracks = self.localAudioTrack ? @[ self.localAudioTrack ] : @[ ];
-        builder.videoTracks = self.localVideoTrack ? @[ self.localVideoTrack ] : @[ ];
-
-        // The name of the Room where the Client will attempt to connect to. Please note that if you pass an empty
-        // Room `name`, the Client will create one for you. You can get the name or sid from any connected Room.
-        builder.roomName = @"abc";
-    }];
+                                                                          
+                                                                          // Use the local media that we prepared earlier.
+                                                                          builder.audioTracks = self.localAudioTrack ? @[ self.localAudioTrack ] : @[ ];
+                                                                          builder.videoTracks = self.localVideoTrack ? @[ self.localVideoTrack ] : @[ ];
+                                                                          
+                                                                          // The name of the Room where the Client will attempt to connect to. Please note that if you pass an empty
+                                                                          // Room `name`, the Client will create one for you. You can get the name or sid from any connected Room.
+                                                                          builder.roomName = @"abc";
+                                                                      }];
     
     // Connect to the Room using the options we provided.
     self.room = [TwilioVideo connectWithOptions:connectOptions delegate:self];
@@ -331,44 +331,44 @@
         self.remoteParticipant.delegate = self;
     }
     
-//    //Audio test
-//    NSLog(@"SETTING UP AUDIO DEVICE AFTER CONNECTING TO ROOM --");
-//    NSLog(@"Audio Device: %@", self.audioDevice);
-//
-//    self.audioDevice.block = ^() {
-//        kDefaultAVAudioSessionConfigurationBlock();
-//
-//        AVAudioSession *session = [AVAudioSession sharedInstance];
-//
-//        NSError *error = nil;
-//       // [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
-//        NSLog(@"ERROR: %@", error);
-//        // set the mode to voice chat
-//        [session setMode:AVAudioSessionModeVoiceChat error:&error];
-//        //[session setOption:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
-//        // SPEAKER
-//       /// [session setCategory:AVAudioSessionModeDefault
-//       //          withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
-//       //                error:&error];
-////        NSLog(@"ERROR2: %@", error);
-////        if (![session setCategory:AVAudioSessionModeVoiceChat
-////                      withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
-////                            error:&error]) {
-////            NSLog(@"AUDIO DEVICE LOG:");
-////            NSLog(@"AVAudioSession setCategory:withOptions %@",error);
-////            NSLog(@"ERROR DESCRIPTION: %@", error.description);
-////        }else{
-////            NSLog(@"AUDIO SESSION CATEGORY SETUP SUCCESSFUL!");
-////        }
-//
-//        /* Only valid with kAudioSessionCategory_PlayAndRecord. Reduces the number of allowable audio
-//            routes to be only those that are appropriate for video chat applications. May engage appropriate
-//            system-supplied signal processing.  Has the side effect of setting
-//            AVAudioSessionCategoryOptionAllowBluetooth and AVAudioSessionCategoryOptionDefaultToSpeaker. */
-//        //    AVF_EXPORT NSString *const AVAudioSessionModeVideoChat NS_AVAILABLE_IOS(7_0);
-//    };
-//    self.audioDevice.block();
-//    NSLog(@"Called Audio Device Block Code");
+    //    //Audio test
+    //    NSLog(@"SETTING UP AUDIO DEVICE AFTER CONNECTING TO ROOM --");
+    //    NSLog(@"Audio Device: %@", self.audioDevice);
+    //
+    //    self.audioDevice.block = ^() {
+    //        kDefaultAVAudioSessionConfigurationBlock();
+    //
+    //        AVAudioSession *session = [AVAudioSession sharedInstance];
+    //
+    //        NSError *error = nil;
+    //       // [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+    //        NSLog(@"ERROR: %@", error);
+    //        // set the mode to voice chat
+    //        [session setMode:AVAudioSessionModeVoiceChat error:&error];
+    //        //[session setOption:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
+    //        // SPEAKER
+    //       /// [session setCategory:AVAudioSessionModeDefault
+    //       //          withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
+    //       //                error:&error];
+    ////        NSLog(@"ERROR2: %@", error);
+    ////        if (![session setCategory:AVAudioSessionModeVoiceChat
+    ////                      withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
+    ////                            error:&error]) {
+    ////            NSLog(@"AUDIO DEVICE LOG:");
+    ////            NSLog(@"AVAudioSession setCategory:withOptions %@",error);
+    ////            NSLog(@"ERROR DESCRIPTION: %@", error.description);
+    ////        }else{
+    ////            NSLog(@"AUDIO SESSION CATEGORY SETUP SUCCESSFUL!");
+    ////        }
+    //
+    //        /* Only valid with kAudioSessionCategory_PlayAndRecord. Reduces the number of allowable audio
+    //            routes to be only those that are appropriate for video chat applications. May engage appropriate
+    //            system-supplied signal processing.  Has the side effect of setting
+    //            AVAudioSessionCategoryOptionAllowBluetooth and AVAudioSessionCategoryOptionDefaultToSpeaker. */
+    //        //    AVF_EXPORT NSString *const AVAudioSessionModeVideoChat NS_AVAILABLE_IOS(7_0);
+    //    };
+    //    self.audioDevice.block();
+    //    NSLog(@"Called Audio Device Block Code");
 }
 
 - (void)switchSpeakerClicked{
@@ -397,7 +397,7 @@
                            error:&error];
             [weakSelf.speakerSwitchBtn setTitle:@"In-Ear" forState:UIControlStateNormal];
             weakSelf.isSpeakerMode = YES;
-
+            
         }
         /* Only valid with kAudioSessionCategory_PlayAndRecord. Reduces the number of allowable audio
          routes to be only those that are appropriate for video chat applications. May engage appropriate
@@ -455,7 +455,7 @@
       publishedVideoTrack:(TVIRemoteVideoTrackPublication *)publication {
     
     // Remote Participant has offered to share the video Track.
-
+    
     [self logMessage:[NSString stringWithFormat:@"Participant %@ published %@ video track .",
                       participant.identity, publication.trackName]];
 }
