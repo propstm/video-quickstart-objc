@@ -170,7 +170,10 @@
         // Add renderer to video track for local preview
         [self.localVideoTrack addRenderer:self.previewView];
         
-        [self logMessage:@"Video track created"];
+        
+        [self logMessage:@"In Start Preview --"];
+        
+        [self logMessage:@"Local video track created"];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(flipCamera)];
@@ -323,6 +326,8 @@
 
 - (void)didConnectToRoom:(TVIRoom *)room {
     // At the moment, this example only supports rendering one Participant at a time.
+    [self logMessage:[NSString stringWithFormat:@"ROOM NAME: %@", room.name]];
+    [self logMessage:[NSString stringWithFormat:@"ROOM SID: %@", room.sid]];
     
     [self logMessage:[NSString stringWithFormat:@"Connected to room %@ as %@", room.name, room.localParticipant.identity]];
     
