@@ -104,7 +104,7 @@
         [TokenUtils retrieveAccessTokenFromURL:self.tokenUrl completion:^(NSString *token, NSError *err) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
-                    NSLog(@"TOKEN RESPONSE: %@", token);
+                    //NSLog(@"TOKEN RESPONSE: %@", token);
                     NSError *jsonError;
                     NSData *objectData = [token dataUsingEncoding:NSUTF8StringEncoding];
                     //NSObject *objectData = NSObject
@@ -116,7 +116,7 @@
                     
                     NSString *tokenString = [json valueForKey:@"token"];
                     
-                    NSLog(@"IDENTITY STRING: %@", tokenString);
+                    //NSLog(@"IDENTITY STRING: %@", tokenString);
                     
                     self.accessToken = tokenString;
                     [self doConnect];
@@ -330,45 +330,6 @@
         self.remoteParticipant = room.remoteParticipants[0];
         self.remoteParticipant.delegate = self;
     }
-    
-    //    //Audio test
-    //    NSLog(@"SETTING UP AUDIO DEVICE AFTER CONNECTING TO ROOM --");
-    //    NSLog(@"Audio Device: %@", self.audioDevice);
-    //
-    //    self.audioDevice.block = ^() {
-    //        kDefaultAVAudioSessionConfigurationBlock();
-    //
-    //        AVAudioSession *session = [AVAudioSession sharedInstance];
-    //
-    //        NSError *error = nil;
-    //       // [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
-    //        NSLog(@"ERROR: %@", error);
-    //        // set the mode to voice chat
-    //        [session setMode:AVAudioSessionModeVoiceChat error:&error];
-    //        //[session setOption:AVAudioSessionCategoryOptionDefaultToSpeaker error:&error];
-    //        // SPEAKER
-    //       /// [session setCategory:AVAudioSessionModeDefault
-    //       //          withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
-    //       //                error:&error];
-    ////        NSLog(@"ERROR2: %@", error);
-    ////        if (![session setCategory:AVAudioSessionModeVoiceChat
-    ////                      withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
-    ////                            error:&error]) {
-    ////            NSLog(@"AUDIO DEVICE LOG:");
-    ////            NSLog(@"AVAudioSession setCategory:withOptions %@",error);
-    ////            NSLog(@"ERROR DESCRIPTION: %@", error.description);
-    ////        }else{
-    ////            NSLog(@"AUDIO SESSION CATEGORY SETUP SUCCESSFUL!");
-    ////        }
-    //
-    //        /* Only valid with kAudioSessionCategory_PlayAndRecord. Reduces the number of allowable audio
-    //            routes to be only those that are appropriate for video chat applications. May engage appropriate
-    //            system-supplied signal processing.  Has the side effect of setting
-    //            AVAudioSessionCategoryOptionAllowBluetooth and AVAudioSessionCategoryOptionDefaultToSpeaker. */
-    //        //    AVF_EXPORT NSString *const AVAudioSessionModeVideoChat NS_AVAILABLE_IOS(7_0);
-    //    };
-    //    self.audioDevice.block();
-    //    NSLog(@"Called Audio Device Block Code");
 }
 
 - (void)switchSpeakerClicked{
@@ -584,6 +545,12 @@
 - (void)videoView:(TVIVideoView *)view videoDimensionsDidChange:(CMVideoDimensions)dimensions {
     NSLog(@"Dimensions changed to: %d x %d", dimensions.width, dimensions.height);
     [self.view setNeedsLayout];
+}
+
+- (void)videoViewDidReceiveData:(nonnull TVIVideoView *)view {
+    NSLog(@"---------------------------");
+    NSLog(@"VIDEO VIEW DID RECEIVE DATA FIRED");
+    NSLog(@"---------------------------");
 }
 
 #pragma mark - TVICameraCapturerDelegate
