@@ -64,6 +64,7 @@
     NSLog(@"TOKEN URL: %@", self.tokenUrl);
     
     // Preview our local camera track in the local video preview view.
+    [self setupRemoteView];
     [self startPreview];
     
     // Disconnect and mic button will be displayed when client is connected to a room.
@@ -168,7 +169,8 @@
         [self logMessage:@"Failed to add video track"];
     } else {
         // Add renderer to video track for local preview
-        [self.localVideoTrack addRenderer:self.previewView];
+//        [self.localVideoTrack addRenderer:self.previewView];
+        [self.localVideoTrack addRenderer:self.remoteView];
         
         
         [self logMessage:@"In Start Preview --"];
@@ -246,7 +248,12 @@
     self.remoteView.contentMode = UIViewContentModeScaleAspectFit;
     
     [self.view insertSubview:remoteView atIndex:0];
+    
+    //Remove/Kill remote view if it already exists.
+    [self.remoteView removeFromSuperview];
+    self.remoteView = nil;
     self.remoteView = remoteView;
+    [self.remoteView setDelegate:self];
     
     NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:self.remoteView
                                                                attribute:NSLayoutAttributeCenterX
@@ -304,7 +311,7 @@
         if ([self.remoteParticipant.videoTracks count] > 0) {
             TVIRemoteVideoTrack *videoTrack = self.remoteParticipant.remoteVideoTracks[0].remoteTrack;
             [videoTrack removeRenderer:self.remoteView];
-            [self.remoteView removeFromSuperview];
+           // [self.remoteView removeFromSuperview];
         }
         self.remoteParticipant = nil;
     }
@@ -419,7 +426,7 @@
 
 - (void)remoteParticipant:(TVIRemoteParticipant *)participant
       publishedVideoTrack:(TVIRemoteVideoTrackPublication *)publication {
-    
+    NSLog(@"remoteParticipant - publishedVideoTrack");
     // Remote Participant has offered to share the video Track.
     
     [self logMessage:[NSString stringWithFormat:@"Participant %@ published %@ video track .",
@@ -428,7 +435,7 @@
 
 - (void)remoteParticipant:(TVIRemoteParticipant *)participant
     unpublishedVideoTrack:(TVIRemoteVideoTrackPublication *)publication {
-    
+    NSLog(@"remoteParticipant - unpublishedVideoTrack");
     // Remote Participant has stopped sharing the video Track.
     
     [self logMessage:[NSString stringWithFormat:@"Participant %@ unpublished %@ video track.",
@@ -437,7 +444,7 @@
 
 - (void)remoteParticipant:(TVIRemoteParticipant *)participant
       publishedAudioTrack:(TVIRemoteAudioTrackPublication *)publication {
-    
+    NSLog(@"remoteParticipant - publishedAudioTrack");
     // Remote Participant has offered to share the audio Track.
     
     [self logMessage:[NSString stringWithFormat:@"Participant %@ published %@ audio track.",
@@ -446,7 +453,7 @@
 
 - (void)remoteParticipant:(TVIRemoteParticipant *)participant
     unpublishedAudioTrack:(TVIRemoteAudioTrackPublication *)publication {
-    
+    NSLog(@"remoteParticipant - unpublishedAudioTrack");
     // Remote Participant has stopped sharing the audio Track.
     
     [self logMessage:[NSString stringWithFormat:@"Participant %@ unpublished %@ audio track.",
@@ -456,7 +463,7 @@
 - (void)subscribedToVideoTrack:(TVIRemoteVideoTrack *)videoTrack
                    publication:(TVIRemoteVideoTrackPublication *)publication
                 forParticipant:(TVIRemoteParticipant *)participant {
-    
+    NSLog(@"subscribedToVideoTrack");
     // We are subscribed to the remote Participant's audio Track. We will start receiving the
     // remote Participant's video frames now.
     
@@ -464,7 +471,12 @@
                       publication.trackName, participant.identity]];
     
     if (self.remoteParticipant == participant) {
-        [self setupRemoteView];
+        if(!self.remoteView){
+            [self setupRemoteView];
+        }
+        
+        [self.localVideoTrack removeRenderer:self.remoteView];
+        [self.localVideoTrack addRenderer:self.previewView];
         [videoTrack addRenderer:self.remoteView];
     }
 }
@@ -472,7 +484,7 @@
 - (void)unsubscribedFromVideoTrack:(TVIRemoteVideoTrack *)videoTrack
                        publication:(TVIRemoteVideoTrackPublication *)publication
                     forParticipant:(TVIRemoteParticipant *)participant {
-    
+    NSLog(@"subscribedToAudioTrack");
     // We are unsubscribed from the remote Participant's video Track. We will no longer receive the
     // remote Participant's video.
     
@@ -481,7 +493,10 @@
     
     if (self.remoteParticipant == participant) {
         [videoTrack removeRenderer:self.remoteView];
-        [self.remoteView removeFromSuperview];
+        
+        [self.localVideoTrack removeRenderer:self.previewView];
+        [self.localVideoTrack addRenderer:self.remoteView];
+       // [self.remoteView removeFromSuperview];
     }
 }
 
@@ -491,7 +506,7 @@
     
     // We are subscribed to the remote Participant's audio Track. We will start receiving the
     // remote Participant's audio now.
-    
+    NSLog(@"subscribedToAudioTrack");
     [self logMessage:[NSString stringWithFormat:@"Subscribed to %@ audio track for Participant %@",
                       publication.trackName, participant.identity]];
 }
@@ -499,7 +514,7 @@
 - (void)unsubscribedFromAudioTrack:(TVIRemoteAudioTrack *)audioTrack
                        publication:(TVIRemoteAudioTrackPublication *)publication
                     forParticipant:(TVIRemoteParticipant *)participant {
-    
+    NSLog(@"unsubscribedFromAudioTrack");
     // We are unsubscribed from the remote Participant's audio Track. We will no longer receive the
     // remote Participant's audio.
     
@@ -509,24 +524,28 @@
 
 - (void)remoteParticipant:(TVIRemoteParticipant *)participant
         enabledVideoTrack:(TVIRemoteVideoTrackPublication *)publication {
+    NSLog(@"remoteParticipant - enabledVideoTrack");
     [self logMessage:[NSString stringWithFormat:@"Participant %@ enabled %@ video track.",
                       participant.identity, publication.trackName]];
 }
 
 - (void)remoteParticipant:(TVIRemoteParticipant *)participant
        disabledVideoTrack:(TVIRemoteVideoTrackPublication *)publication {
+    NSLog(@"remoteParticipant - disabledVideoTrack");
     [self logMessage:[NSString stringWithFormat:@"Participant %@ disabled %@ video track.",
                       participant.identity, publication.trackName]];
 }
 
 - (void)remoteParticipant:(TVIRemoteParticipant *)participant
         enabledAudioTrack:(TVIRemoteAudioTrackPublication *)publication {
+    NSLog(@"remoteParticipant - enabledAudioTrack");
     [self logMessage:[NSString stringWithFormat:@"Participant %@ enabled %@ audio track.",
                       participant.identity, publication.trackName]];
 }
 
 - (void)remoteParticipant:(TVIRemoteParticipant *)participant
        disabledAudioTrack:(TVIRemoteAudioTrackPublication *)publication {
+    NSLog(@"remoteParticipant - disabledAudioTrack");
     [self logMessage:[NSString stringWithFormat:@"Participant %@ disabled %@ audio track.",
                       participant.identity, publication.trackName]];
 }
@@ -534,6 +553,7 @@
 - (void)failedToSubscribeToAudioTrack:(TVIRemoteAudioTrackPublication *)publication
                                 error:(NSError *)error
                        forParticipant:(TVIRemoteParticipant *)participant {
+    NSLog(@"failedToSubscribeToAudioTrack");
     [self logMessage:[NSString stringWithFormat:@"Participant %@ failed to subscribe to %@ audio track.",
                       participant.identity, publication.trackName]];
 }
@@ -541,6 +561,7 @@
 - (void)failedToSubscribeToVideoTrack:(TVIRemoteVideoTrackPublication *)publication
                                 error:(NSError *)error
                        forParticipant:(TVIRemoteParticipant *)participant {
+    NSLog(@"failedToSubscribeToVideoTrack");
     [self logMessage:[NSString stringWithFormat:@"Participant %@ failed to subscribe to %@ video track.",
                       participant.identity, publication.trackName]];
 }
